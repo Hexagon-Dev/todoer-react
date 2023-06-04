@@ -1,5 +1,5 @@
 import React from "react";
-import { Column } from "@/types";
+import {Card, Column} from "@/types";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CardComponent from "@/components/Card";
@@ -13,18 +13,6 @@ type ColumnProps = {
 const Container: (
   { columnIndex, column, setColumn }: ColumnProps
 ) => JSX.Element = ({ columnIndex, column, setColumn }: ColumnProps) => {
-  function isEmptyInColumn() {
-    return column.cards.filter((card) => {
-      return card.content === '';
-    }).length > 0;
-  }
-
-  function handleCardContentChange(event: React.BaseSyntheticEvent, key: number) {
-    column.cards[key].content = event.target.value ?? '';
-
-    setColumn(columnIndex, column);
-  }
-
   function setEditModeColumn(active: boolean, save: boolean) {
     if (!active) {
       if (save) {
@@ -50,32 +38,6 @@ const Container: (
     setColumn(columnIndex, column);
   }
 
-  function setEditModeCard(active: boolean, save: boolean, key: number) {
-    const card = column.cards[key];
-
-    if (!active) {
-      if (save) {
-        card.initialContent = card.content;
-      } else {
-        card.content = card.initialContent;
-      }
-
-      if (card.content === '') {
-        column.cards.splice(key, 1);
-
-        setColumn(column);
-
-        return;
-      }
-    } else {
-      column.cards[key].initialContent = column.cards[key].content;
-    }
-
-    column.cards[key].editMode = active;
-
-    setColumn(column);
-  }
-
   function addCard() {
     column.cards.push({
       content: '',
@@ -83,6 +45,16 @@ const Container: (
       createdAt: new Date(),
       editMode: true,
     });
+
+    setColumn(column);
+  }
+
+  function setCard(index: number, card: Card|null) {
+    if (card === null) {
+      column.cards.splice(index, 1);
+    } else {
+      column.cards[index] = card;
+    }
 
     setColumn(column);
   }
@@ -133,19 +105,15 @@ const Container: (
     <div className="space-y-2">
       {column.cards.map((card, index) => (
         <CardComponent
-          name={`card_${index}`}
-          onChange={handleCardContentChange}
-          placeholder="Enter info..."
           key={index}
-          index={index}
-          columnIndex={columnIndex}
-          setEditMode={setEditModeCard}
+          cardIndex={index}
           card={card}
+          setCard={setCard}
         />
       ))}
 
       <button
-        disabled={isEmptyInColumn()}
+        disabled={column.cards.some((card) => card.editMode)}
         onClick={() => {addCard()}}
         className="btn-default w-64"
       >
@@ -153,6 +121,6 @@ const Container: (
       </button>
     </div>
   </div>
-}
+};
 
-export default Container
+export default Container;

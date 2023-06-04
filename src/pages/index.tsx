@@ -45,8 +45,8 @@ export default function Home() {
   }
 
   return (
-    <main className={`flex min-h-screen flex-col justify-between p-4 ${inter.className}`}>
-      <div className="flex space-x-4">
+    <main className={`flex flex-col justify-between p-4 ${inter.className}`}>
+      <div className="flex space-x-4 overflow-y-auto pb-4">
         {columns.map((column, columnIndex) => (
           <ColumnComponent
             key={columnIndex}
@@ -56,11 +56,15 @@ export default function Home() {
           />
         ))}
         <div>
-          <button onClick={addColumn} className="btn-default w-64">
+          <button
+            onClick={addColumn}
+            disabled={columns.some(column => column.editMode)}
+            className="btn-default w-64"
+          >
             ADD COLUMN
           </button>
         </div>
       </div>
     </main>
   )
-}
+};

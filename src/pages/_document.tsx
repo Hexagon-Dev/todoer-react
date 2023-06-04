@@ -14,7 +14,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body className="flex flex-col bg-indigo-950">
+      <body className="flex flex-col bg-indigo-950 min-h-screen">
       <div className="flex p-4 space-x-4 bg-gray-800">
         <div className="text-3xl">
           TODOER
