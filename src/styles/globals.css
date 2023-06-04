@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.btn-default {
+  @apply p-1 text-sm font-bold bg-gray-700 hover:bg-gray-600 duration-200 rounded
+  disabled:bg-gray-800 disabled:hover:bg-gray-800;
+}
+
+.svg-inline--fa {
+  display: block!important;
+}

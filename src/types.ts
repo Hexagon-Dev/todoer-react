@@ -7,5 +7,7 @@ export interface Card {
 
 export interface Column {
   name: string;
+  initialName: string;
   cards: Card[];
+  editMode: boolean;
 }
