@@ -1,8 +1,9 @@
 import { Inter } from 'next/font/google'
-import React from "react";
-import { Card, Column } from "@/types";
+import React from 'react';
+import { Card, Column } from '@/types';
 
-import ColumnComponent from "@/components/Column";
+import ColumnComponent from '@/components/Column';
+import useLocalStorage from '@/useLocalStorage';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +22,7 @@ export default function Home() {
     editMode: false,
   };
 
-  const [columns, setColumns] = React.useState([column]);
+  const [columns, setColumns] = useLocalStorage('columns', [column]);
 
   function setColumn(index: number, column: Column|null) {
     if (column === null) {
@@ -47,7 +48,7 @@ export default function Home() {
   return (
     <main className={`flex flex-col justify-between p-4 ${inter.className}`}>
       <div className="flex space-x-4 overflow-y-auto pb-4">
-        {columns.map((column, columnIndex) => (
+        {columns.map((column: Column, columnIndex: number) => (
           <ColumnComponent
             key={columnIndex}
             columnIndex={columnIndex}
@@ -58,7 +59,7 @@ export default function Home() {
         <div>
           <button
             onClick={addColumn}
-            disabled={columns.some(column => column.editMode)}
+            disabled={columns.some((column: Column) => column.editMode)}
             className="btn-default w-64"
           >
             ADD COLUMN
