@@ -59,8 +59,14 @@ const Container: (
     setColumn(column);
   }
 
+  function deleteColumn() {
+    if (confirm('Are you sure you want to delete this column? All cards would be lost.')) {
+      setColumn(columnIndex, null);
+    }
+  }
+
   return <div key={columnIndex} className="p-2 rounded bg-gray-800 h-min">
-    <div className="flex justify-between items-center mb-2">
+    <div className="flex items-center mb-2">
       {column.editMode ? (
         <>
           <input
@@ -76,7 +82,7 @@ const Container: (
 
           <button
             onClick={() => setEditModeColumn(false, false)}
-            className="p-2 bg-red-700 hover:bg-red-500 duration-200 rounded"
+            className="p-2 bg-red-700 hover:bg-red-500 duration-200 rounded ml-auto mr-2"
           >
             <FontAwesomeIcon className="text-white !h-4 !w-4" icon="xmark" />
           </button>
@@ -93,9 +99,12 @@ const Container: (
 
           <button
             onClick={() => setEditModeColumn(true, false)}
-            className="p-2 bg-gray-700 hover:bg-gray-500 duration-200 rounded"
+            className="p-2 bg-gray-700 hover:bg-gray-500 duration-200 rounded ml-auto mr-2"
           >
             <FontAwesomeIcon className="text-white !h-4 !w-4" icon="edit" />
+          </button>
+          <button onClick={() => deleteColumn()} className="p-2 bg-red-700 hover:bg-red-500 duration-200 rounded">
+            <FontAwesomeIcon className="text-white !h-4 !w-4" icon="trash" />
           </button>
         </>
       )}

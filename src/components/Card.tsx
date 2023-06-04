@@ -34,6 +34,12 @@ const Container: (
     setCard(cardIndex, card);
   }
 
+  function deleteCard() {
+    if (confirm('Are you sure you want to delete this card?')) {
+      setCard(cardIndex, null);
+    }
+  }
+
   return <div className="flex items-start justify-between p-2 w-64 rounded bg-gray-700 hover:bg-gray-600 duration-200 text-white">
     {card.editMode ? (
       <input
@@ -42,6 +48,7 @@ const Container: (
         name={`card_${cardIndex}`}
         className="w-full mr-2 rounded bg-gray-300 text-black p-1"
         placeholder="Enter info..."
+        autoFocus
         onChange={(event) => {
           card.content = event.target.value;
 
@@ -67,7 +74,7 @@ const Container: (
           <button onClick={() => setEditMode(true, false)} className="p-2 bg-gray-800 hover:bg-gray-500 duration-200 rounded">
             <FontAwesomeIcon className="text-white !h-4 !w-4" icon="edit" />
           </button>
-          <button className="p-2 bg-red-700 hover:bg-red-500 duration-200 rounded">
+          <button onClick={() => deleteCard()} className="p-2 bg-red-700 hover:bg-red-500 duration-200 rounded">
             <FontAwesomeIcon className="text-white !h-4 !w-4" icon="trash" />
           </button>
         </>
